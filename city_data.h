@@ -19,7 +19,8 @@ typedef struct {
     size_t city_count;
 } CountryInfo;
 
-extern const CountryInfo countries[];
-extern const size_t countries_count;
-
+// Data management functions
+bool load_city_data_from_file(const char* file_path);
+void free_city_data(void);
+const CountryInfo* get_countries(size_t* count);
 const CountryInfo* find_country_by_name(const char* name);
