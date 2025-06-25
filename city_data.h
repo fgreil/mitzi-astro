@@ -1,26 +1,36 @@
 #pragma once
 #include <furi.h>
+#include <gui/gui.h>
+
+#define MAX_CITIES 200
+#define MAX_COUNTRIES 50
+#define MAX_STRING_LENGTH 64
 
 typedef struct {
-    const char* country_code;
-    const char* country_name;
-    const char* city_name;
-    const char* city_description;
+    char country_code[4];
+    char country_name[MAX_STRING_LENGTH];
+    char province_state[MAX_STRING_LENGTH];
+    char city_name[MAX_STRING_LENGTH];
+    char city_description[MAX_STRING_LENGTH];
     float utc_offset;
-    int deg_lon;
-    int deg_lat;
-    int min_lon;
-    int min_lat;
-} CityInfo;
+    int longitude_degrees;
+    int longitude_minutes;
+    int latitude_degrees;
+    int latitude_minutes;
+} CityData;
 
 typedef struct {
-    const char* country_name;
-    const CityInfo* cities;
-    size_t city_count;
-} CountryInfo;
+    char name[MAX_STRING_LENGTH];
+    int city_indices[MAX_CITIES];
+    int city_count;
+} CountryData;
 
-// Data management functions
-bool load_city_data_from_file(const char* file_path);
-void free_city_data(void);
-const CountryInfo* get_countries(size_t* count);
-const CountryInfo* find_country_by_name(const char* name);
+typedef struct {
+    CityData cities[MAX_CITIES];
+    CountryData countries[MAX_COUNTRIES];
+    int total_cities;
+    int total_countries;
+} CityDatabase;
+
+bool city_data_load_from_csv(CityDatabase* db, const char* file_path);
+void city_data_free(CityDatabase* db);
