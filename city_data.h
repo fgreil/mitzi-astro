@@ -6,6 +6,10 @@ typedef struct {
     const char* city_name;
     const char* city_description;
     float utc_offset;
+    int deg_lon;
+    int deg_lat;
+    int min_lon;
+    int min_lat;
 } CityInfo;
 
 typedef struct {
