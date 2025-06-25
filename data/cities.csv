@@ -1,0 +1,155 @@
+# Country Code,Country Name,Province/State,City Name,City Description,UTC Offset in hours,Longitude Degrees,Longitude Minutes,Latitude Degrees,Latitude Minutes
+US,United States,Baker Island,Baker Island,Uninhabited,-12.0,-176,-30,0,-13
+AS,American Samoa,,Pago Pago,Capital of American Samoa,-11.0,-170,-42,-14,-16
+NU,Niue,,Alofi,Capital of Niue,-11.0,-169,-55,-19,-3
+US,United States,Hawaii,Honolulu,Capital of Hawaii,-10.0,-157,-51,21,-18
+US,United States,Alaska,Adak,Largest city in Aleutian Islands,-10.0,-176,-39,51,-52
+US,United States,Alaska,Juneau,Capital of Alaska,-9.0,-134,-25,58,-18
+US,United States,Alaska,Anchorage,Largest city in Alaska,-9.0,-149,-54,61,-13
+US,United States,California,Los Angeles,Largest city in California,-8.0,-118,-15,34,-3
+CA,Canada,British Columbia,Vancouver,Largest city in British Columbia,-8.0,-123,-7,49,-15
+MX,Mexico,Baja California,Tijuana,Largest city in Baja California,-8.0,-117,-2,32,-32
+US,United States,Colorado,Denver,Largest city in Colorado,-7.0,-104,-59,39,-44
+US,United States,Arizona,Phoenix,Capital and largest city of Arizona,-7.0,-112,-4,33,-27
+CA,Canada,Alberta,Edmonton,Capital of Alberta,-7.0,-113,-29,53,-32
+MX,Mexico,Sonora,Hermosillo,Capital of Sonora,-7.0,-110,-58,29,-5
+US,United States,Illinois,Chicago,Largest city in Illinois,-6.0,-87,-39,41,-52
+MX,Mexico,Mexico City,Mexico City,Capital of Mexico,-6.0,-99,-8,19,-26
+GT,Guatemala,,Guatemala City,Capital of Guatemala,-6.0,-90,-31,14,-37
+CR,Costa Rica,,San José,Capital of Costa Rica,-6.0,-84,-5,9,-56
+US,United States,New York,New York,Largest city in New York,-5.0,-74,-1,40,-43
+CA,Canada,Ontario,Toronto,Largest city in Ontario,-5.0,-79,-23,43,-40
+CO,Colombia,,Bogotá,Capital of Colombia,-5.0,-74,-5,4,-36
+CO,Colombia,,Medellín,Second-largest city in Colombia,-5.0,-75,-34,6,-15
+CO,Colombia,,Cali,Third-largest city in Colombia,-5.0,-76,-31,3,-27
+PE,Peru,,Lima,Capital of Peru,-5.0,-77,-1,-12,-2
+PE,Peru,,Arequipa,Second-largest city in Peru,-5.0,-71,-32,-16,-24
+PE,Peru,,Trujillo,Third-largest city in Peru,-5.0,-79,-1,-8,-6
+CU,Cuba,,Havana,Capital of Cuba,-5.0,-82,-22,23,-8
+CA,Canada,Nova Scotia,Halifax,Largest city in Nova Scotia,-4.0,-63,-34,44,-39
+CL,Chile,,Santiago,Capital of Chile,-4.0,-70,-40,-33,-27
+CL,Chile,,Valparaíso,Second-largest city in Chile,-4.0,-71,-37,-33,-2
+CL,Chile,,Concepción,Third-largest city in Chile,-4.0,-73,-3,-36,-49
+VE,Venezuela,,Caracas,Capital of Venezuela,-4.0,-66,-55,10,-30
+VE,Venezuela,,Maracaibo,Second-largest city in Venezuela,-4.0,-71,-38,10,-39
+VE,Venezuela,,Valencia,Third-largest city in Venezuela,-4.0,-67,-58,10,-11
+BO,Bolivia,,La Paz,Administrative capital of Bolivia,-4.0,-68,-9,-16,-30
+BO,Bolivia,,Santa Cruz de la Sierra,Largest city in Bolivia,-4.0,-63,-10,-17,-47
+BO,Bolivia,,Cochabamba,Third-largest city in Bolivia,-4.0,-66,-9,-17,-23
+PY,Paraguay,,Asunción,Capital of Paraguay,-4.0,-57,-38,-25,-16
+PY,Paraguay,,Ciudad del Este,Second-largest city in Paraguay,-4.0,-54,-37,-25,-31
+PY,Paraguay,,San Lorenzo,Third-largest city in Paraguay,-4.0,-57,-31,-25,-20
+AR,Argentina,,Buenos Aires,Capital of Argentina,-3.0,-58,-22,-34,-36
+AR,Argentina,,Córdoba,Second-largest city in Argentina,-3.0,-64,-11,-31,-25
+AR,Argentina,,Rosario,Third-largest city in Argentina,-3.0,-60,-40,-32,-57
+BR,Brazil,,São Paulo,Largest city in Brazil,-3.0,-46,-38,-23,-33
+BR,Brazil,,Rio de Janeiro,Second-largest city in Brazil,-3.0,-43,-12,-22,-54
+BR,Brazil,,Salvador,Third-largest city in Brazil,-3.0,-38,-29,-12,-58
+UY,Uruguay,,Montevideo,Capital of Uruguay,-3.0,-56,-10,-34,-53
+UY,Uruguay,,Salto,Second-largest city in Uruguay,-3.0,-57,-58,-31,-23
+UY,Uruguay,,Ciudad de la Costa,Third-largest city in Uruguay,-3.0,-55,-57,-34,-49
+EC,Ecuador,,Quito,Capital of Ecuador,-5.0,-78,-30,-0,-13
+EC,Ecuador,,Guayaquil,Largest city in Ecuador,-5.0,-79,-53,-2,-11
+EC,Ecuador,,Cuenca,Third-largest city in Ecuador,-5.0,-78,-59,-2,-54
+GY,Guyana,,Georgetown,Capital of Guyana,-4.0,-58,-9,6,-48
+GY,Guyana,,Linden,Second-largest city in Guyana,-4.0,-58,-17,6,-0
+GY,Guyana,,New Amsterdam,Third-largest city in Guyana,-4.0,-57,-31,6,-15
+SR,Suriname,,Paramaribo,Capital of Suriname,-3.0,-55,-10,5,-50
+SR,Suriname,,Lelydorp,Second-largest city in Suriname,-3.0,-55,-14,5,-42
+SR,Suriname,,Nieuw Nickerie,Third-largest city in Suriname,-3.0,-56,-58,5,-56
+FK,Falkland Islands,,Stanley,Capital of Falkland Islands,-2.0,-57,-51,-51,-42
+GL,Greenland,,Nuuk,Capital of Greenland,-2.0,-51,-44,64,-11
+PT,Portugal,Azores,Ponta Delgada,Capital of Azores,-1.0,-25,-40,37,-44
+CV,Cape Verde,,Praia,Capital of Cape Verde,-1.0,-23,-31,14,-55
+GB,United Kingdom,,London,Capital of the UK,0.0,-0,-8,51,-30
+IS,Iceland,,Reykjavík,Capital of Iceland,0.0,-21,-56,64,-8
+GH,Ghana,,Accra,Capital of Ghana,0.0,-0,-12,5,-33
+GH,Ghana,,Kumasi,Second-largest city in Ghana,0.0,-1,-37,6,-42
+NG,Nigeria,,Lagos,Largest city in Nigeria,1.0,3,-24,6,-27
+NG,Nigeria,,Kano,Second-largest city in Nigeria,1.0,8,-31,11,-60
+DZ,Algeria,,Algiers,Capital of Algeria,1.0,3,-3,36,-46
+DZ,Algeria,,Oran,Second-largest city in Algeria,1.0,-0,-38,35,-42
+EG,Egypt,,Cairo,Capital of Egypt,2.0,31,-14,30,-2
+EG,Egypt,,Alexandria,Second-largest city in Egypt,2.0,29,-55,31,-12
+ZA,South Africa,,Johannesburg,Largest city in South Africa,2.0,28,-2,-26,-12
+ZA,South Africa,,Cape Town,Second-largest city in South Africa,2.0,18,-25,-33,-55
+KE,Kenya,,Nairobi,Capital of Kenya,3.0,36,-49,-1,-17
+KE,Kenya,,Mombasa,Second-largest city in Kenya,3.0,39,-40,-4,-3
+ET,Ethiopia,,Addis Ababa,Capital of Ethiopia,3.0,38,-44,9,-1
+ET,Ethiopia,,Dire Dawa,Second-largest city in Ethiopia,3.0,41,-52,9,-35
+SD,Sudan,,Khartoum,Capital of Sudan,2.0,32,-32,15,-36
+SD,Sudan,,Omdurman,Second-largest city in Sudan,2.0,32,-29,15,-39
+MA,Morocco,,Rabat,Capital of Morocco,0.0,-6,-51,34,-1
+MA,Morocco,,Casablanca,Largest city in Morocco,0.0,-7,-35,33,-36
+TN,Tunisia,,Tunis,Capital of Tunisia,1.0,10,-11,36,-48
+TN,Tunisia,,Sfax,Second-largest city in Tunisia,1.0,10,-46,34,-44
+LY,Libya,,Tripoli,Capital of Libya,2.0,13,-11,32,-53
+LY,Libya,,Benghazi,Second-largest city in Libya,2.0,20,-4,32,-7
+SN,Senegal,,Dakar,Capital of Senegal,0.0,-17,-26,14,-41
+SN,Senegal,,Touba,Second-largest city in Senegal,0.0,-15,-53,14,-52
+CI,Côte d'Ivoire,,Abidjan,Largest city in Côte d'Ivoire,0.0,-4,-1,5,-19
+CI,Côte d'Ivoire,,Bouaké,Second-largest city in Côte d'Ivoire,0.0,-5,-2,7,-41
+CM,Cameroon,,Yaoundé,Capital of Cameroon,1.0,11,-31,3,-52
+CM,Cameroon,,Douala,Largest city in Cameroon,1.0,9,-42,4,-3
+UG,Uganda,,Kampala,Capital of Uganda,3.0,32,-35,0,-19
+UG,Uganda,,Gulu,Second-largest city in Uganda,3.0,32,-17,2,-46
+TZ,Tanzania,,Dodoma,Capital of Tanzania,3.0,35,-44,-6,-10
+TZ,Tanzania,,Dar es Salaam,Largest city in Tanzania,3.0,39,-16,-6,-49
+MW,Malawi,,Lilongwe,Capital of Malawi,2.0,33,-47,-13,-59
+MW,Malawi,,Blantyre,Largest city in Malawi,2.0,35,-0,-15,-47
+ZM,Zambia,,Lusaka,Capital of Zambia,2.0,28,-17,-15,-25
+ZM,Zambia,,Kitwe,Second-largest city in Zambia,2.0,28,-12,-12,-49
+ZW,Zimbabwe,,Harare,Capital of Zimbabwe,2.0,31,-3,-17,-50
+ZW,Zimbabwe,,Bulawayo,Second-largest city in Zimbabwe,2.0,28,-35,-20,-10
+AO,Angola,,Luanda,Capital of Angola,1.0,13,-14,-8,-50
+AO,Angola,,Huambo,Second-largest city in Angola,1.0,15,-44,-12,-46
+MZ,Mozambique,,Maputo,Capital of Mozambique,2.0,32,-34,-25,-58
+MZ,Mozambique,,Matola,Second-largest city in Mozambique,2.0,32,-28,-25,-58
+BW,Botswana,,Gaborone,Capital of Botswana,2.0,25,-55,-24,-39
+BW,Botswana,,Francistown,Second-largest city in Botswana,2.0,27,-30,-21,-10
+NA,Namibia,,Windhoek,Capital of Namibia,1.0,17,-5,-22,-34
+NA,Namibia,,Walvis Bay,Second-largest city in Namibia,1.0,14,-30,-22,-57
+MG,Madagascar,,Antananarivo,Capital of Madagascar,3.0,47,-31,-18,-55
+MG,Madagascar,,Toamasina,Second-largest city in Madagascar,3.0,49,-24,-18,-9
+MU,Mauritius,,Port Louis,Capital of Mauritius,4.0,57,-30,-20,-10
+MU,Mauritius,,Beau Bassin-Rose Hill,Second-largest city in Mauritius,4.0,57,-28,-20,-14
+DE,Germany,,Berlin,Capital of Germany,1.0,13,-23,52,-31
+FR,France,,Paris,Capital of France,1.0,2,-21,48,-51
+ES,Spain,,Madrid,Capital of Spain,1.0,-3,-41,40,-25
+IT,Italy,,Rome,Capital of Italy,1.0,12,-29,41,-54
+RU,Russia,,Moscow,Capital of Russia,3.0,37,-37,55,-45
+TR,Turkey,,Istanbul,Largest city in Turkey,3.0,28,-58,41,-1
+SA,Saudi Arabia,,Riyadh,Capital of Saudi Arabia,3.0,46,-43,24,-39
+IQ,Iraq,,Baghdad,Capital of Iraq,3.0,44,-22,33,-20
+AE,United Arab Emirates,,Dubai,Largest city in UAE,4.0,55,-18,25,-16
+AZ,Azerbaijan,,Baku,Capital of Azerbaijan,4.0,49,-53,40,-23
+GE,Georgia,,Tbilisi,Capital of Georgia,4.0,44,-47,41,-43
+PK,Pakistan,,Islamabad,Capital of Pakistan,5.0,73,-4,33,-43
+PK,Pakistan,,Karachi,Largest city in Pakistan,5.0,67,-1,24,-51
+UZ,Uzbekistan,,Tashkent,Capital of Uzbekistan,5.0,69,-13,41,-18
+BD,Bangladesh,,Dhaka,Capital of Bangladesh,6.0,90,-24,23,-43
+KZ,Kazakhstan,,Almaty,Largest city in Kazakhstan,6.0,76,-57,43,-15
+BT,Bhutan,,Thimphu,Capital of Bhutan,6.0,89,-38,27,-28
+TH,Thailand,,Bangkok,Capital of Thailand,7.0,100,-30,13,-45
+ID,Indonesia,,Jakarta,Capital of Indonesia,7.0,106,-49,-6,-12
+VN,Vietnam,,Hanoi,Capital of Vietnam,7.0,105,-51,21,-2
+RU,Russia,Siberia,Novosibirsk,Largest city in Siberia,7.0,82,-56,55,-2
+CN,China,Beijing,Beijing,Capital of China,8.0,116,-23,39,-55
+CN,China,Shanghai,Shanghai,Largest city in China,8.0,121,-28,31,-14
+CN,China,Guangdong,Guangzhou,Third-largest city in China,8.0,113,-15,23,-7
+CN,China,Guangdong,Shenzhen,Fourth-largest city in China,8.0,114,-3,22,-33
+CN,China,Tianjin,Tianjin,Fifth-largest city in China,8.0,117,-12,39,-8
+CN,China,Chongqing,Chongqing,Sixth-largest city in China,8.0,106,-33,29,-33
+CN,China,Sichuan,Chengdu,Seventh-largest city in China,8.0,104,-4,30,-40
+CN,China,Jiangsu,Nanjing,Eighth-largest city in China,8.0,118,-47,32,-3
+CN,China,Hubei,Wuhan,Ninth-largest city in China,8.0,114,-17,30,-35
+CN,China,Zhejiang,Hangzhou,Tenth-largest city in China,8.0,120,-9,30,-15
+AU,Australia,South Australia,Adelaide,Capital of South Australia,9.5,138,-36,-34,-55
+AU,Australia,Western Australia/South Australia,Eucla,Border town,8.75,128,-53,-31,-42
+CA,Canada,Newfoundland and Labrador,St. John's,Capital of Newfoundland and Labrador,-3.5,-52,-42,47,-34
+NZ,New Zealand,,Auckland,Largest city in New Zealand,12.0,174,-46,-36,-51
+FJ,Fiji,,Suva,Capital of Fiji,12.0,178,-26,-18,-8
+RU,Russia,Kamchatka,Petropavlovsk-Kamchatsky,Largest city in Kamchatka,12.0,158,-39,53,-1
+TO,Tonga,,Nukuʻalofa,Capital of Tonga,13.0,-175,-12,-21,-8
+WS,Samoa,,Apia,Capital of Samoa,13.0,-171,-45,-13,-50
+KI,Kiribati,,Kiritimati,Capital of Line Islands,14.0,-157,-20,1,-52
