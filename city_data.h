@@ -1,4 +1,5 @@
 #pragma once
+#include <furi.h>
 
 typedef struct {
     const char* country_code;
