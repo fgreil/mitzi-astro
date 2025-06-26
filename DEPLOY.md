@@ -8,7 +8,7 @@
    ```
 3. Use something like `python3 -m pip install ufbt` to install the [micro Flipper Build Tool](https://github.com/flipperdevices/flipperzero-ufbt)
 4. Add the uFBT folder to your Windows PATH environment variable.
-5. Start ufBT for the first time with `python -m ufbt` to ensure that it downloads and installs the necessary SDK components from the official firmware's release update channel. This includes a toolchain built for your platform. The output may look as follows:
+5. Start **uFBT** inside the project folder (where the manifest file is located) with `python -m ufbt`. During its first run it will download and install the necessary SDK components from the official firmware's release update channel. This includes a toolchain built for your platform. The output may look similar to the following:
 ```
 16:23:00.842 [I] Deploying SDK for f7
 16:23:00.842 [I] Fetching version info for UpdateChannel.RELEASE from https://update.flipperzero.one/firmware/directory.json
@@ -40,3 +40,5 @@ Make sure the *entry_point* matches the function name in your `my_main_file.c` f
 ## Building and deploying the artifact to the device
 
 1. Connect your Flipper Zero via USB cable.
+2. In the Windows command line change to the project folder (where the manifest file is located). Start ufBT with `python -m ufbt`.
+
