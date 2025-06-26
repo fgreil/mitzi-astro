@@ -1,4 +1,4 @@
-#include "city_info_app.h"
+#include "astro.h"
 
 static void city_info_app_draw_callback(Canvas* canvas, void* ctx) {
     CityInfoApp* app = ctx;
