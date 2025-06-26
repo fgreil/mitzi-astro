@@ -25,5 +25,6 @@ Please note that the CSV file goes in /ext/apps_data/mitzi-astro/cities.csv
 
 # Links and further reading
 * https://developer.flipper.net/flipperzero/doxygen/applications.html is the official (too) short introduction to writing own apps.
+* The real app **tuning fork** seems to be well documented, see https://github.com/besya/flipperzero-tuning-fork/tree/main 
 * Under https://github.com/flipperdevices/flipperzero-firmware/tree/dev/assets/icons/Common we find nice icons, e.g. `ButtonLeft_4x7.png`.
 * [uFBT](https://github.com/flipperdevices/flipperzero-ufbt) is the *micro Flipper Build Tool*, a cross-platform tool for building applications. It requires python to be installed. 
