@@ -1,6 +1,8 @@
 # mitzi-astro
 A demo app for Flipper Zero to calculate sunset and sunrise (not yet).
 
+![Splash screen](data/splash.png)
+
 The user first has to choose country and then a city from a list in two menus. Once the city is determinted, the user sees more information about that city.
 
 ## The user flow
