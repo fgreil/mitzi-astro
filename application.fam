@@ -2,12 +2,11 @@ App(
     appid="mitzi_astro",
     name="Mitzi Astro",
     apptype=FlipperAppType.EXTERNAL,
-    entry_point="mitzi_astro_app",
+    entry_point="زity_info_app",
     requires=[
         "gui",
     ],
     fap_icon="astro_icon.png",
-    fap_category="Media",
     stack_size=2 * 1024,
     order=20,
     fap_author="@fgreil",
