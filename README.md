@@ -22,4 +22,5 @@ Please note that the CSV file goes in /ext/apps_data/mitzi-astro/cities.csv
 * [Mitzi (C. C. Odontoceti)](https://www.floridamemory.com/items/show/82844) was a movie star, born in 1958 and died in 1972.
 
 # Links and further reading
-* https://developer.flipper.net/flipperzero/doxygen/applications.html 
+* https://developer.flipper.net/flipperzero/doxygen/applications.html
+* [uFBT](https://github.com/flipperdevices/flipperzero-ufbt) is the *micro Flipper Build Tool*, a cross-platform tool for building applications. It requires python to be installed. 
