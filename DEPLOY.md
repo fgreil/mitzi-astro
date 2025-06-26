@@ -3,8 +3,10 @@
 ## One-off activities for Windows
 
 1. Ensure that Python is installed and accessible via command line. You may have to 
-   `cmdsetx PATH "%PATH%;C:\Users\[Username]\AppData\Local\Microsoft\WindowsApps\[SomethingWithPython]\"`
-2. Use something like `python3 -m pip install ufbt` to install the [micro Flipper Build Tool](https://github.com/flipperdevices/flipperzero-ufbt)
+   ```
+   setx PATH "%PATH%;C:\Users\[Username]\AppData\Local\Microsoft\WindowsApps\[SomethingWithPython]\"
+   ```
+3. Use something like `python3 -m pip install ufbt` to install the [micro Flipper Build Tool](https://github.com/flipperdevices/flipperzero-ufbt)
 
 ## Things to check before deploying
 
