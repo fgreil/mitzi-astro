@@ -5,7 +5,7 @@ The user first has to choose country and then a city from a list in two menus. O
 
 ## The user flow
 
-The App consists of 4 screens:
+The base App consists of 4 screens *and can not yet do anything related to astronomy*:
 1. A Splash-Screen should welcome the user once the app is opened. A simple PNG-file is displayed. Pressing the OK-button or any of the arrow keys moves to the next screen, the "back"-button terminates the app. The next screen is the main menu, if there is already a user-preference persisted. After the first startup and whenever the local preferences-file is missing or empty, the next screen after the splash screen is the "Choose"-screen.
 2. The screen "main menu" consists of a title "City info" in bold, and four menu entries below. A right-pointing arrow-cursor allows to choose between the options "Choose City", "City Info" and "Exit" with the "up" and "down" button. "City Info" is only shown as menu entry, if the user-preference-file exists and has a valid city entry. The screen also shows a right-aligned PNG-image of 64x64 pixels with a logo. Pressing the "back"-button terminates the app. 
 3. The screen entitled "Choose City" comes with an instruction "Please choose a city". Here, a CSV-file like the attached file is read in. There are two selector-fields, "Country" and "City". At start, the "City"-selector is on focus. The "left" and the "right" button moves the focus to the other one. "OK" saves the chosen city into the preference file. The back-button does not save the changes and moves back to the "main menu".
