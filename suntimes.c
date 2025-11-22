@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "suntimes.h"
 #include <math.h>
 #include <string.h>
 
