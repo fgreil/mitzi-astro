@@ -20,6 +20,16 @@ The base App consists of 4 screens *and can not yet do anything related to astro
 
 Please note that the CSV file goes in /ext/apps_data/mitzi-astro/cities.csv
 
+## Sun maths
+The function `SunTimes sun(int year, int month, int day, int lat_degree, int lat_minute, int lon_degree, int lon_minute, int height_meters, float time_zone_offset_to_utc_in_hours)` located in [suntimes.c](suntimes.c) computes for any date between year 0 and 3000, using formulas from https://gml.noaa.gov/grad/solcalc/calcdetails.html
+* astronomical dawn and astronomical dusk,
+* nautical dawn and nautical dusk,
+* civil dawn and civil dusk,
+* sunrise, sunset,
+* day length,
+
+The function musts return a `SunTimes`, including a field `comment` reflecting special conditions (polar night or day!) or errors (non-existent dates during the 1582 Gregorian calendar reform).
+
 ## Fun facts
 * [Mitzi (C. C. Odontoceti)](https://www.floridamemory.com/items/show/82844) was a movie star, born in 1958 and died in 1972.
 
