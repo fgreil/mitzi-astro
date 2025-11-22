@@ -1,0 +1,17 @@
+# Country code, Name, Longitude), Latitude, Height above see level (m), Inhabitants in 2024, Founding date, Capital (y/n)
+DE;Berlin;13.4050;52.5200;34;3,770,000;1237;C 
+FR;Paris;2.3522;48.8566;33;2,140k;3rd century BC;C  
+GB;London;-0.1276;51.5074;11;9,840k;43 AD;C;
+ES;Madrid;-3.7038;40.4168;667;3k,000;9th century
+IT;Rome;12.4964;41.9028;21;2,750k;753 BC  
+RU;Moscow;37.6173;55.7558;156;12,630k;1147  
+PL;Warsaw;21.0122;52.2297;100;1,863k;1300s
+AT;Vienna;16.3738;48.2082;171;1,962k;500s
+TR;Istanbul;28.9744;41.0128;39;15,840k;660 BC
+ES;Barcelona;2.1734;41.3851;12;1,636k;1st century BC  
+HU;Budapest;19.0402;47.4979;96;1,707k;9th century  
+RO;Bucharest;26.1025;44.4268;70;2,161k;145
+DE;Hamburg;9.9937;53.5511;8;1,854k;9th century 
+IT;Milan;9.1900;45.4642;120;1,372k;400s BC  
+CZ;Prague;14.4378;50.0755;200;1,275k;9th century 
+BG;Sofia;23.3219;42.6977;550;1,307k;7th century BC
