@@ -6,13 +6,59 @@
 #include <gui/elements.h> // to access button drawing functions
 
 #define TAG "Astro" // Tag for logging purposes
+#define MAX_CITIES 200
+#define MAX_LINE_LENGTH 256
+
 extern const Icon I_splash;
 extern const Icon I_icon_10x10;
+extern const Icon I_ButtonDown_7x4;
+extern const Icon I_ButtonUp_7x4;
+
 
 typedef enum {
     ScreenSplash,
 	ScreenCities
 } AppScreen;
+
+typedef enum {
+    MenuCountry,
+	MenuCity
+} AppMenu;
+
+const char* european_country_codes[] = {
+    "AT", // Austria
+    "BE", // Belgium
+    "BG", // Bulgaria
+    "HR", // Croatia
+    "CY", // Cyprus
+    "CZ", // Czech Republic
+    "DK", // Denmark
+    "EE", // Estonia
+    "FI", // Finland
+    "FR", // France
+    "DE", // Germany
+    "GR", // Greece
+    "HU", // Hungary
+    "IE", // Ireland
+    "IT", // Italy
+    "LV", // Latvia
+    "LT", // Lithuania
+    "LU", // Luxembourg
+    "MT", // Malta
+    "NL", // Netherlands
+    "PL", // Poland
+    "PT", // Portugal
+    "RO", // Romania
+    "SK", // Slovakia
+    "SI", // Slovenia
+    "ES", // Spain
+    "SE", // Sweden
+    "CH", // Switzerland
+    "GB"  // United Kingdom
+};
+
+// Number of countries
+const int country_count = sizeof(european_country_codes) / sizeof(european_country_codes[0]);
 
 // Main application structure
 typedef struct {
@@ -20,6 +66,9 @@ typedef struct {
     ViewPort* view_port;            // ViewPort for rendering UI
     Gui* gui;                       // GUI instance
     uint8_t current_screen;         // 0 = first screen, 1 = second screen 
+	int current_menu;	
+	int selected_country;
+	int selected_city;
 } AppState;
 
 // =============================================================================
@@ -54,13 +103,38 @@ void draw_callback(Canvas* canvas, void* context) {
 		case ScreenCities: // Screen to choose city ----------------------------
 			canvas_draw_icon(canvas, 1, -1, &I_icon_10x10);
 			canvas_set_font(canvas, FontPrimary);
-			canvas_draw_str_aligned(canvas, 12, 1, AlignLeft, AlignTop, "Choose city");
-			
+			canvas_draw_str_aligned(canvas, 13, 1, AlignLeft, AlignTop, "City data");
+	
 			canvas_set_font(canvas, FontSecondary);
-			canvas_draw_str_aligned(canvas, 110, 1, AlignLeft, AlignTop, "v0.1");
+			// Country chooser
+			canvas_draw_frame(canvas, 1, 11, 24, 12);
+			canvas_draw_str_aligned(canvas, 4, 13, AlignLeft, AlignTop, 
+				european_country_codes[state -> selected_country]); 
+
+			// City chooser
+			canvas_draw_frame(canvas, 26, 11, 102, 12);
+			canvas_draw_str_aligned(canvas, 28, 13, AlignLeft, AlignTop, "Choose city"); 
+			
+			switch (state -> current_menu) {
+				case MenuCountry: 
+					if (state -> selected_country > 0){
+						canvas_draw_icon(canvas, 16, 12, &I_ButtonUp_7x4); 
+					}
+					canvas_draw_icon(canvas, 16, 17, &I_ButtonDown_7x4);
+					break;
+				case MenuCity: 
+					canvas_draw_icon(canvas, 119, 12, &I_ButtonUp_7x4);
+					if (state -> selected_country < country_count - 1){
+						canvas_draw_icon(canvas, 119, 17, &I_ButtonDown_7x4);
+					}
+					break;
+			}		
+			
 			
 			// Draw button hints at bottom using elements library
-			elements_button_left(canvas, "Prev."); 
+			// canvas_draw_str_aligned(canvas, 1, 57, AlignLeft, AlignTop, "to exit.");
+			canvas_draw_str_aligned(canvas, 1, 49, AlignLeft, AlignTop, "Hold 'back'");
+			canvas_draw_str_aligned(canvas, 1, 57, AlignLeft, AlignTop, "to exit.");
 			break;	
     }
 }
@@ -80,6 +154,9 @@ int32_t astro_main(void* p) {
 
     AppState app; // Application state struct
 	app.current_screen = ScreenSplash;  // Start on splash screen
+	app.current_menu = MenuCountry; // Start on menu chooser
+	app.selected_country = 0;
+	app.selected_city = 0;
 	
 	// Allocate resources for rendering and 
     app.view_port = view_port_alloc(); // for rendering
@@ -102,20 +179,32 @@ int32_t astro_main(void* p) {
 		// Handle button presses based on current screen
         switch(input.key) {
 		case InputKeyUp:
+			if ((input.type == InputTypePress) && (app.current_screen == ScreenCities) &&
+					(app.current_menu == MenuCountry)){
+				if (app.selected_country > 0 ){ app.selected_country--; }
+			}
 			break;
 		case InputKeyDown:
+			if ((input.type == InputTypePress) && (app.current_screen == ScreenCities) &&
+				(app.current_menu == MenuCountry)){
+				if (app.selected_country < country_count - 1 ){ app.selected_country++; }
+			}
 			break;
 		case InputKeyLeft:
-			if (input.type == InputTypePress){
-				switch (app.current_screen) {
-					case ScreenCities:
-						app.current_screen = ScreenSplash;  
-					break;
+			if ((input.type == InputTypePress) && (app.current_screen == ScreenCities)){
+				switch (app.current_menu) {
+					case MenuCity: app.current_menu = MenuCountry; break;
+					case MenuCountry: app.current_menu = MenuCity; break;
 				}
-				break;
 			}
 			break;
 		case InputKeyRight:
+			if ((input.type == InputTypePress) && (app.current_screen == ScreenCities)) {
+				switch (app.current_menu) {
+					case MenuCity: app.current_menu = MenuCountry; break;
+					case MenuCountry: app.current_menu = MenuCity; break;
+				}
+			}
 			break;
 		case InputKeyOk:
 			if (input.type == InputTypePress){
