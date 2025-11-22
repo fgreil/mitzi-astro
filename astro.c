@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <storage/storage.h>
+#include "suntimes.h"
+#include <furi_hal_rtc.h>  // For getting current date/time
 
 #define TAG "Astro" // Tag for logging purposes
 #define MAX_CITIES 200
@@ -119,6 +121,7 @@ typedef struct {
 	int selected_city; // city ID from CSV file
 	int city_idx; // filtered city index
 	bool csv_loaded;  // Status indicator
+	SunTimes sun_data;  // Store calculated sun times
 } AppState;
 
 // =============================================================================
@@ -305,6 +308,33 @@ void filter_cities_by_country(AppState* state) {
     }
 }
 
+void calculate_sun_times(AppState* state) {
+    if(filtered_city_count == 0) return;
+    
+    // Get current date from RTC
+    FuriHalRtcDateTime datetime;
+    furi_hal_rtc_get_datetime(&datetime);
+    
+    City* city = &cities[state->city_idx];
+    
+    // Convert lat/lon to degrees and minutes
+    int lat_deg = (int)city->latitude;
+    int lat_min = (int)((fabs(city->latitude) - abs(lat_deg)) * 60);
+    int lon_deg = (int)city->longitude;
+    int lon_min = (int)((fabs(city->longitude) - abs(lon_deg)) * 60);
+    
+    // Calculate sun times
+    state->sun_data = sun(
+        datetime.year,
+        datetime.month,
+        datetime.day,
+        lat_deg, lat_min,
+        lon_deg, lon_min,
+        city->elevation_m,
+        city->utc_shift
+    );
+}
+
 // =============================================================================
 // MAIN CALLBACK - called whenever the screen needs to be redrawn
 // =============================================================================
@@ -366,6 +396,16 @@ void draw_callback(Canvas* canvas, void* context) {
 				snprintf(buffer, sizeof(buffer), "Elev: %dm UTC %+.1fh", 
 					cities[state->city_idx].elevation_m, cities[state->city_idx].utc_shift);
 				canvas_draw_str_aligned(canvas, 1, 33, AlignLeft, AlignTop, buffer);
+				calculate_sun_times(state);
+				if(strcmp(state->sun_data.comment, "OK") == 0) {
+				    snprintf(buffer, sizeof(buffer), "Sun: %02d:%02d-%02d:%02d (%02d:%02d)",
+				             state->sun_data.sunrise_hour, state->sun_data.sunrise_minute,
+				             state->sun_data.sunset_hour, state->sun_data.sunset_minute,
+				             state->sun_data.daylength_hour, state->sun_data.daylength_minute);
+				} else {
+				    snprintf(buffer, sizeof(buffer), "Sun: N/A (polar)");
+				}
+				canvas_draw_str_aligned(canvas, 1, 42, AlignLeft, AlignTop, buffer);
 			}
 			// Navigation arrows
 			switch(state->current_menu) {
