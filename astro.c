@@ -1,6 +1,5 @@
 #include <furi.h> // Flipper Universal Registry Implementation = Core OS functionality
 #include <gui/gui.h> // GUI system
-#include <gui/icon.h>
 #include <input/input.h> // Input handling (buttons)
 #include <stdint.h> // Standard integer types
 #include <stdlib.h> // Standard library functions
@@ -8,9 +7,11 @@
 
 #define TAG "Astro" // Tag for logging purposes
 extern const Icon I_splash;
+extern const Icon I_icon_10x10;
 
 typedef enum {
     ScreenSplash,
+	ScreenCities
 } AppScreen;
 
 // Main application structure
@@ -31,18 +32,16 @@ void draw_callback(Canvas* canvas, void* context) {
     canvas_clear(canvas);
     canvas_set_color(canvas, ColorBlack);
     switch (state -> current_screen) {
-		case ScreenSplash: // First screen ----------------------------
+		case ScreenSplash: // Splash screen ----------------------------
 			canvas_draw_icon(canvas, 1, 1, &I_splash); // 51 is a pixel above the buttons
-			
+			canvas_set_color(canvas, ColorBlack);
 			canvas_set_font(canvas, FontPrimary);
 			canvas_draw_str_aligned(canvas, 1, 1, AlignLeft, AlignTop, "Sun data");
 			canvas_draw_str_aligned(canvas, 1, 10, AlignLeft, AlignTop, "for your");
 			canvas_draw_str_aligned(canvas, 1, 20, AlignLeft, AlignTop, "city");
 			canvas_draw_str_aligned(canvas, 88, 56, AlignLeft, AlignTop, "f418.eu");
 			
-			canvas_set_color(canvas, ColorBlack);
 			canvas_set_font(canvas, FontSecondary);
-						
 			canvas_draw_str_aligned(canvas, 1, 49, AlignLeft, AlignTop, "Hold 'back'");
 			canvas_draw_str_aligned(canvas, 1, 57, AlignLeft, AlignTop, "to exit.");
 			
@@ -51,6 +50,17 @@ void draw_callback(Canvas* canvas, void* context) {
 			
 			// Draw button hints at bottom using elements library
 			elements_button_center(canvas, "OK"); // for the OK button
+			break;	
+		case ScreenCities: // Screen to choose city ----------------------------
+			canvas_draw_icon(canvas, 1, -1, &I_icon_10x10);
+			canvas_set_font(canvas, FontPrimary);
+			canvas_draw_str_aligned(canvas, 12, 1, AlignLeft, AlignTop, "Choose city");
+			
+			canvas_set_font(canvas, FontSecondary);
+			canvas_draw_str_aligned(canvas, 110, 1, AlignLeft, AlignTop, "v0.1");
+			
+			// Draw button hints at bottom using elements library
+			elements_button_left(canvas, "Prev."); 
 			break;	
     }
 }
@@ -69,7 +79,7 @@ int32_t astro_main(void* p) {
     UNUSED(p);
 
     AppState app; // Application state struct
-	app.current_screen = ScreenSplash;  // Start on first screen (0)
+	app.current_screen = ScreenSplash;  // Start on splash screen
 	
 	// Allocate resources for rendering and 
     app.view_port = view_port_alloc(); // for rendering
@@ -92,12 +102,29 @@ int32_t astro_main(void* p) {
 		// Handle button presses based on current screen
         switch(input.key) {
 		case InputKeyUp:
+			break;
 		case InputKeyDown:
+			break;
 		case InputKeyLeft:
+			if (input.type == InputTypePress){
+				switch (app.current_screen) {
+					case ScreenCities:
+						app.current_screen = ScreenSplash;  
+					break;
+				}
+				break;
+			}
+			break;
 		case InputKeyRight:
+			break;
 		case InputKeyOk:
-		if(input.type == InputTypePress) {
-				exit_loop = 1;  
+			if (input.type == InputTypePress){
+				switch (app.current_screen) {
+					case ScreenSplash:
+						app.current_screen = ScreenCities;   
+					break;
+				}
+				break;
 			}
 			break;
         case InputKeyBack:
