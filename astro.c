@@ -4,6 +4,8 @@
 #include <stdint.h> // Standard integer types
 #include <stdlib.h> // Standard library functions
 #include <gui/elements.h> // to access button drawing functions
+#include <stdio.h>
+#include <string.h>
 
 #define TAG "Astro" // Tag for logging purposes
 #define MAX_CITIES 200
@@ -11,9 +13,9 @@
 
 extern const Icon I_splash;
 extern const Icon I_icon_10x10;
+extern const Icon I_capital_10x10;
 extern const Icon I_ButtonDown_7x4;
 extern const Icon I_ButtonUp_7x4;
-
 
 typedef enum {
     ScreenSplash,
@@ -25,40 +27,160 @@ typedef enum {
 	MenuCity
 } AppMenu;
 
-const char* european_country_codes[] = {
-    "AT", // Austria
-    "BE", // Belgium
-    "BG", // Bulgaria
-    "HR", // Croatia
-    "CY", // Cyprus
-    "CZ", // Czech Republic
-    "DK", // Denmark
-    "EE", // Estonia
-    "FI", // Finland
-    "FR", // France
-    "DE", // Germany
-    "GR", // Greece
-    "HU", // Hungary
-    "IE", // Ireland
-    "IT", // Italy
-    "LV", // Latvia
-    "LT", // Lithuania
-    "LU", // Luxembourg
-    "MT", // Malta
-    "NL", // Netherlands
-    "PL", // Poland
-    "PT", // Portugal
-    "RO", // Romania
-    "SK", // Slovakia
-    "SI", // Slovenia
-    "ES", // Spain
-    "SE", // Sweden
-    "CH", // Switzerland
-    "GB"  // United Kingdom
+struct EuropeanCountry {
+    char code[3];       // enough for "AT" + null
+    char name[32];
+    char capital[32];
 };
 
-// Number of countries
-const int country_count = sizeof(european_country_codes) / sizeof(european_country_codes[0]);
+static const struct EuropeanCountry european_countries[] = {
+    [0] = {
+        .code = "AT",
+        .name = "Austria",
+        .capital = "Vienna"
+    },
+    [1] = {
+        .code = "BE",
+        .name = "Belgium",
+        .capital = "Brussels"
+    },
+    [2] = {
+        .code = "BG",
+        .name = "Bulgaria",
+        .capital = "Sofia"
+    },
+    [3] = {
+        .code = "CH",
+        .name = "Switzerland",
+        .capital = "Bern"
+    },
+    [4] = {
+        .code = "CY",
+        .name = "Cyprus",
+        .capital = "Nicosia"
+    },
+    [5] = {
+        .code = "CZ",
+        .name = "Czech Republic",
+        .capital = "Prague"
+    },
+    [6] = {
+        .code = "DE",
+        .name = "Germany",
+        .capital = "Berlin"
+    },
+    [7] = {
+        .code = "DK",
+        .name = "Denmark",
+        .capital = "Copenhagen"
+    },
+    [8] = {
+        .code = "EE",
+        .name = "Estonia",
+        .capital = "Tallinn"
+    },
+    [9] = {
+        .code = "ES",
+        .name = "Spain",
+        .capital = "Madrid"
+    },
+    [10] = {
+        .code = "FI",
+        .name = "Finland",
+        .capital = "Helsinki"
+    },
+    [11] = {
+        .code = "FR",
+        .name = "France",
+        .capital = "Paris"
+    },
+    [12] = {
+        .code = "GB",
+        .name = "United Kingdom",
+        .capital = "London"
+    },
+    [13] = {
+        .code = "GR",
+        .name = "Greece",
+        .capital = "Athens"
+    },
+    [14] = {
+        .code = "HR",
+        .name = "Croatia",
+        .capital = "Zagreb"
+    },
+    [15] = {
+        .code = "HU",
+        .name = "Hungary",
+        .capital = "Budapest"
+    },
+    [16] = {
+        .code = "IE",
+        .name = "Ireland",
+        .capital = "Dublin"
+    },
+    [17] = {
+        .code = "IT",
+        .name = "Italy",
+        .capital = "Rome"
+    },
+    [18] = {
+        .code = "LT",
+        .name = "Lithuania",
+        .capital = "Vilnius"
+    },
+    [19] = {
+        .code = "LU",
+        .name = "Luxembourg",
+        .capital = "Luxembourg City"
+    },
+    [20] = {
+        .code = "LV",
+        .name = "Latvia",
+        .capital = "Riga"
+    },
+    [21] = {
+        .code = "MT",
+        .name = "Malta",
+        .capital = "Valletta"
+    },
+    [22] = {
+        .code = "NL",
+        .name = "Netherlands",
+        .capital = "Amsterdam"
+    },
+    [23] = {
+        .code = "PL",
+        .name = "Poland",
+        .capital = "Warsaw"
+    },
+    [24] = {
+        .code = "PT",
+        .name = "Portugal",
+        .capital = "Lisbon"
+    },
+    [25] = {
+        .code = "RO",
+        .name = "Romania",
+        .capital = "Bucharest"
+    },
+    [26] = {
+        .code = "SE",
+        .name = "Sweden",
+        .capital = "Stockholm"
+    },
+    [27] = {
+        .code = "SI",
+        .name = "Slovenia",
+        .capital = "Ljubljana"
+    }
+};
+
+// Number of countries in the array
+const int country_count = sizeof(european_countries) / sizeof(european_countries[0]);
+
+double lat = 51.5074; 
+double lon = -0.1278;
 
 // Main application structure
 typedef struct {
@@ -76,6 +198,7 @@ typedef struct {
 // =============================================================================
 void draw_callback(Canvas* canvas, void* context) {
     AppState* state = context;  // Get app context to check current screen
+	char buffer[64]; // buffer for string concatination
 
     // Clear the canvas and set drawing color to black
     canvas_clear(canvas);
@@ -109,11 +232,21 @@ void draw_callback(Canvas* canvas, void* context) {
 			// Country chooser
 			canvas_draw_frame(canvas, 1, 11, 24, 12);
 			canvas_draw_str_aligned(canvas, 4, 13, AlignLeft, AlignTop, 
-				european_country_codes[state -> selected_country]); 
-
+				european_countries[state -> selected_country].code); 
 			// City chooser
 			canvas_draw_frame(canvas, 26, 11, 102, 12);
-			canvas_draw_str_aligned(canvas, 28, 13, AlignLeft, AlignTop, "Choose city"); 
+			canvas_draw_str_aligned(canvas, 28, 13, AlignLeft, AlignTop, 
+				european_countries[state -> selected_country].capital); 
+			// Indicator whether the city is the capital	
+			canvas_draw_icon(canvas, 118, 1, &I_capital_10x10);	
+			// Show time zone info
+			snprintf(buffer, sizeof(buffer), "UTC %sh",
+				european_countries[state->selected_country].name);
+			canvas_draw_str_aligned(canvas, 1, 24, AlignLeft, AlignTop, buffer);
+			// Place holder for latitude and longitude
+			snprintf(buffer, sizeof(buffer), "Lat: %.3f %c  Lon: %.3f %c",
+				fabs(lat), (lat >= 0 ? 'N' : 'S'), fabs(lon), (lon >= 0 ? 'E' : 'W'));
+			canvas_draw_str_aligned(canvas, 1, 33, AlignLeft, AlignTop, buffer);
 			
 			switch (state -> current_menu) {
 				case MenuCountry: 
@@ -124,7 +257,7 @@ void draw_callback(Canvas* canvas, void* context) {
 					break;
 				case MenuCity: 
 					canvas_draw_icon(canvas, 119, 12, &I_ButtonUp_7x4);
-					if (state -> selected_country < country_count - 1){
+					if (state -> selected_country < country_count - 2){
 						canvas_draw_icon(canvas, 119, 17, &I_ButtonDown_7x4);
 					}
 					break;
