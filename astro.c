@@ -8,6 +8,7 @@
 #include <string.h>
 #include <storage/storage.h>
 #include <furi_hal_rtc.h> // for getting the current date
+#include <math.h> // for sin, cos, tan, acos
 
 #define TAG "Astro" // Tag for logging purposes
 #define MAX_CITIES 200
@@ -122,15 +123,15 @@ typedef struct {
 // =============================================================================
 // HELPER FUNCTIONS
 // =============================================================================
-static float parse_float(const char* str) { // Manual string to float conversion
-    float result = 0.0f;
-    float sign = 1.0f;
-    float decimal = 0.0f;
+static double parse_float(const char* str) {
+    double result = 0.0;
+    double sign = 1.0;
+    double decimal = 0.0;
     int decimal_places = 0;
     bool past_decimal = false;
     
     if(*str == '-') {
-        sign = -1.0f;
+        sign = -1.0;
         str++;
     } else if(*str == '+') {
         str++;
@@ -139,10 +140,10 @@ static float parse_float(const char* str) { // Manual string to float conversion
     while(*str) {
         if(*str >= '0' && *str <= '9') {
             if(past_decimal) {
-                decimal = decimal * 10.0f + (*str - '0');
+                decimal = decimal * 10.0L + (double)(*str - '0');
                 decimal_places++;
             } else {
-                result = result * 10.0f + (*str - '0');
+                result = result * 10.0L + (double)(*str - '0');
             }
         } else if(*str == '.') {
             past_decimal = true;
@@ -151,7 +152,7 @@ static float parse_float(const char* str) { // Manual string to float conversion
     }
     
     while(decimal_places > 0) {
-        decimal /= 10.0f;
+        decimal = decimal / 10.0L;
         decimal_places--;
     }
     
@@ -303,6 +304,28 @@ void filter_cities_by_country(AppState* state) {
     }
 }
 
+// Calculates sunrise/sunset times for given date and location
+void calculate_sun_times(int year, int month, int day, double lat, double lon, 
+                         int* sunrise_h, int* sunrise_m, int* sunset_h, int* sunset_m) {
+    int n = (month <= 2) ? (month + 12) : month;
+    int y = (month <= 2) ? (year - 1) : year;
+    int day_of_year = (int)(275 * n / 9.0) - ((n + 9) / 12) * 
+                      ((1 + ((y - 4 * (y / 4) + 2) / 3))) - 30 + day;
+    
+	double lat_rad = (double)lat * 0.0174532925L;
+	double solar_decl = 0.4095L * sin(0.016906L * ((double)day_of_year - 80.086L));
+	double hour_angle = acos(-tan(lat_rad) * tan(solar_decl));
+	double solar_noon = 12.0L - ((double)lon / 15.0L);
+
+	double sunrise_time = solar_noon - ((double)hour_angle * 3.81971863L);
+	double sunset_time = solar_noon + ((double)hour_angle * 3.81971863L);
+
+	*sunrise_h = (int)sunrise_time;
+	*sunrise_m = (int)((sunrise_time - (double)*sunrise_h) * 60.0L);
+	*sunset_h = (int)sunset_time;
+	*sunset_m = (int)((sunset_time - (double)*sunset_h) * 60.0L);
+}
+
 // =============================================================================
 // MAIN CALLBACK - called whenever the screen needs to be redrawn
 // =============================================================================
@@ -374,6 +397,31 @@ void draw_callback(Canvas* canvas, void* context) {
 				snprintf(buffer, sizeof(buffer), "Elev: %dm UTC %+.1fh", 
 					cities[state->city_idx].elevation_m, cities[state->city_idx].utc_shift);
 				canvas_draw_str_aligned(canvas, 1, 33, AlignLeft, AlignTop, buffer);
+				
+				// Calculate sun times
+				int sunrise_h, sunrise_m, sunset_h, sunset_m;
+				calculate_sun_times(datetime.year, datetime.month, datetime.day,
+								   cities[state->city_idx].latitude, 
+								   cities[state->city_idx].longitude,
+								   &sunrise_h, &sunrise_m, &sunset_h, &sunset_m);
+
+				// Calculate day length
+				int day_minutes = (sunset_h * 60 + sunset_m) - (sunrise_h * 60 + sunrise_m);
+				int day_h = day_minutes / 60;
+				int day_m = day_minutes % 60;
+
+				// Sunset and sunrise output
+				canvas_draw_icon(canvas, 1, 42, &I_Sunrise_10x10);
+				snprintf(buffer, sizeof(buffer), "%02d:%02d", sunrise_h, sunrise_m);
+				canvas_draw_str_aligned(canvas, 13, 43, AlignLeft, AlignTop, buffer);
+
+				canvas_draw_icon(canvas, 45, 42, &I_Sunset_10x10);
+				snprintf(buffer, sizeof(buffer), "%02d:%02d", sunset_h, sunset_m);
+				canvas_draw_str_aligned(canvas, 57, 43, AlignLeft, AlignTop, buffer);
+
+				canvas_draw_icon(canvas, 89, 42, &I_HourGlas_10x10);
+				snprintf(buffer, sizeof(buffer), "%02d:%02d", day_h, day_m);
+				canvas_draw_str_aligned(canvas, 101, 43, AlignLeft, AlignTop, buffer);
 			}
 			// Navigation arrows for the country and city chooser
 			switch(state->current_menu) {
@@ -396,10 +444,8 @@ void draw_callback(Canvas* canvas, void* context) {
 					// }
 					break;
 			}
-			// Sunset and sunrise output
-			canvas_draw_icon(canvas, 1, 42, &I_Sunset_10x10);
-			canvas_draw_icon(canvas, 35, 42, &I_Sunrise_10x10);
-			canvas_draw_icon(canvas, 70, 42, &I_HourGlas_10x10);
+
+					
 			// Verbose area
 			snprintf(buffer, sizeof(buffer), "Selected city %i/%i", state -> selected_city, state -> city_idx);
 			canvas_draw_str_aligned(canvas, 1, 53, AlignLeft, AlignTop, buffer);
