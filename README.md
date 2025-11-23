@@ -1,15 +1,17 @@
 # mitzi-astro
-A demo app for Flipper Zero to calculate sunset and sunrise (not yet).
+A Flipper Zero app to calculate sunset and sunrise for today for many European cities.
 
-![Splash screen](data/splash.png)
+<img alt="Screenshot Splash screen"  src="screenshots/mitzi-astro_splash.png" width="40%" />
+<img alt="Screenshot Splash screen"  src="screenshots/mitzi-astro_main.png" width="40%" />
 
-The user first has to choose country and then a city from a list in two menus. Once the city is determinted, the user sees more information about that city.
+The user first can choose country and then a city from a filtered list. The sunset, sunrise, and the daylight hours are immediately displayed.
 
 ## The user flow
 The **Splash Screen** displays app title and version information, you can proceed with `OK` or exit.
-The **City Data Screen** has two menu boxes, the country selector (with 2-letter ISO country codes) and the city selector. Based on the choices, the user currently sees the following data:
+The **City Data Screen** has two menu boxes, the country selector (with 2-letter ISO country codes) and the city selector. Based on the choices, the user sees:
 * Capital Indicator icon appears for capital cities
 * Latitude, longitude, elevation, and UTC offset
+* Sunset, sunrise, and daylight hours
 
 ## Key Functions
 * `load_cities_from_csv()` loads city data from external CSV file
@@ -18,7 +20,7 @@ The **City Data Screen** has two menu boxes, the country selector (with 2-letter
 * `input_callback()`h andles button input events
 
 ## Further notes.
-The **data file** is located at `/ext/apps_data/mitzi-astro/european_cities.txt` (note the postfix!). It is in CSV with fields like `country_code`, `utc_shift`, `city_name`, `longitude`, `latitude`, `elevation_m`. It supports up to 200 cities (specified in the code).
+The **data file** is located at `/ext/apps_data/mitzi-astro/european_cities.txt` (note the ending `txt`). It is in CSV with fields like `country_code`, `utc_shift`, `city_name`, `longitude`, `latitude`, `elevation_m`. It supports up to 200 cities (hard-coded, but easy to change).
 
 ## Sun maths
 The function `SunTimes sun(int year, int month, int day, int lat_degree, int lat_minute, int lon_degree, int lon_minute, int height_meters, float time_zone_offset_to_utc_in_hours)` located in [suntimes.c](suntimes.c) computes for any date between year 0 and 3000, using formulas from https://gml.noaa.gov/grad/solcalc/calcdetails.html
@@ -28,7 +30,7 @@ The function `SunTimes sun(int year, int month, int day, int lat_degree, int lat
 * sunrise, sunset,
 * day length,
 
-The function musts return a `SunTimes`, including a field `comment` reflecting special conditions (polar night or day!) or errors (non-existent dates during the 1582 Gregorian calendar reform).
+The function returns a `SunTimes`, including a field `comment` reflecting special conditions (polar night or day!) or errors (non-existent dates during the 1582 Gregorian calendar reform).
 
 # Links and further reading
 * [Mitzi (C. C. Odontoceti)](https://www.floridamemory.com/items/show/82844) was a movie star, born in 1958 and died in 1972.
