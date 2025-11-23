@@ -103,10 +103,6 @@ static int city_count = 0;
 static int filtered_city_count = 0;
 static int filtered_city_indices[MAX_CITIES];
 
-// ChatGPT test coordinate
-double lat = 51.5074; 
-double lon = -0.1278;
-
 // Main application structure
 typedef struct {
     FuriMessageQueue* input_queue;  // Queue for handling input events
@@ -116,7 +112,6 @@ typedef struct {
 	int current_menu;	
 	int selected_country; 
 	int selected_city; // city ID from CSV file
-	int city_idx; // filtered city index
 	bool csv_loaded;  // Status indicator
 } AppState;
 
@@ -304,6 +299,11 @@ void filter_cities_by_country(AppState* state) {
     }
 }
 
+static City* get_current_city(AppState* state) {
+    if(filtered_city_count == 0) return NULL;
+    return &cities[filtered_city_indices[state->selected_city]];
+}
+
 // Calculates sunrise/sunset times for given date and location
 void calculate_sun_times(int year, int month, int day, double lat, double lon, 
                          int* sunrise_h, int* sunrise_m, int* sunset_h, int* sunset_m) {
@@ -327,11 +327,114 @@ void calculate_sun_times(int year, int month, int day, double lat, double lon,
 }
 
 // =============================================================================
+// SCREEN DRAWING FUNCTIONS
+// =============================================================================
+static void draw_splash_screen(Canvas* canvas) {
+    canvas_draw_icon(canvas, 1, 1, &I_splash); // 51 is a pixel above the buttons
+    canvas_set_color(canvas, ColorBlack);
+    canvas_set_font(canvas, FontPrimary);
+    canvas_draw_str_aligned(canvas, 1, 1, AlignLeft, AlignTop, "Sun data");
+    canvas_draw_str_aligned(canvas, 1, 10, AlignLeft, AlignTop, "for your");
+    canvas_draw_str_aligned(canvas, 1, 20, AlignLeft, AlignTop, "city");
+    canvas_draw_str_aligned(canvas, 88, 56, AlignLeft, AlignTop, "f418.eu");
+    
+    canvas_set_font(canvas, FontSecondary);
+    canvas_draw_str_aligned(canvas, 1, 49, AlignLeft, AlignTop, "Hold 'back'");
+    canvas_draw_str_aligned(canvas, 1, 57, AlignLeft, AlignTop, "to exit.");
+    canvas_draw_str_aligned(canvas, 110, 1, AlignLeft, AlignTop, "v0.2");
+    
+    // Draw button hints at bottom using elements library
+    elements_button_center(canvas, "OK"); // for the OK button
+}
+
+static void draw_cities_screen(Canvas* canvas, AppState* state, DateTime* datetime) {
+    char buffer[64]; // buffer for string concatination
+    
+    canvas_draw_icon(canvas, 1, -1, &I_icon_10x10);
+    // Title
+    canvas_set_font(canvas, FontPrimary);
+    canvas_draw_str_aligned(canvas, 13, 1, AlignLeft, AlignTop, "City data"); 
+    // CSV load status indicator
+    if(!state->csv_loaded) {
+        canvas_draw_str_aligned(canvas, 126, 55, AlignRight, AlignTop, "Error: No CSV!");
+    }
+    canvas_set_font(canvas, FontSecondary);
+    // Display current date
+    snprintf(buffer, sizeof(buffer), "%04d-%02d-%02d",datetime->year, datetime->month, datetime->day);
+    canvas_draw_str_aligned(canvas, 63, 2, AlignLeft, AlignTop, buffer);
+    
+    // Country chooser
+    canvas_draw_frame(canvas, 1, 11, 26, 12);
+    canvas_draw_str_aligned(canvas, 4, 13, AlignLeft, AlignTop, 
+        european_countries[state -> selected_country].code); 
+    // City chooser
+    canvas_draw_frame(canvas, 28, 11, 100, 12);
+    City* city = get_current_city(state);
+    if(city) {
+        canvas_draw_str_aligned(canvas, 30, 13, AlignLeft, AlignTop, city->name);
+        if(city->is_capital) { // Draw capital indicator if applicable
+            canvas_draw_icon(canvas, 118, 1, &I_capital_10x10);
+        }
+        // Display latitude and longitude
+        snprintf(buffer, sizeof(buffer), "Lat:%.2f%c Lon:%.2f%c",
+            fabs(city->latitude), (city->latitude >= 0 ? 'N' : 'S'),
+            fabs(city->longitude), (city->longitude >= 0 ? 'E' : 'W'));
+        canvas_draw_str_aligned(canvas, 1, 24, AlignLeft, AlignTop, buffer);
+        // Display elevation and time zone
+        snprintf(buffer, sizeof(buffer), "Elev: %dm UTC %+.1fh", 
+            city->elevation_m, city->utc_shift);
+        canvas_draw_str_aligned(canvas, 1, 33, AlignLeft, AlignTop, buffer);
+        
+        // Calculate sun times
+        int sunrise_h, sunrise_m, sunset_h, sunset_m;
+        calculate_sun_times(datetime->year, datetime->month, datetime->day,
+                           city->latitude, city->longitude,
+                           &sunrise_h, &sunrise_m, &sunset_h, &sunset_m);
+
+        // Calculate day length
+        int day_minutes = (sunset_h * 60 + sunset_m) - (sunrise_h * 60 + sunrise_m);
+        int day_h = day_minutes / 60;
+        int day_m = day_minutes % 60;
+
+        // Sunset and sunrise output
+        canvas_draw_icon(canvas, 1, 42, &I_Sunrise_10x10);
+        snprintf(buffer, sizeof(buffer), "%02d:%02d", sunrise_h, sunrise_m);
+        canvas_draw_str_aligned(canvas, 13, 43, AlignLeft, AlignTop, buffer);
+
+        canvas_draw_icon(canvas, 45, 42, &I_Sunset_10x10);
+        snprintf(buffer, sizeof(buffer), "%02d:%02d", sunset_h, sunset_m);
+        canvas_draw_str_aligned(canvas, 57, 43, AlignLeft, AlignTop, buffer);
+
+        canvas_draw_icon(canvas, 89, 42, &I_HourGlas_10x10);
+        snprintf(buffer, sizeof(buffer), "%02d:%02d", day_h, day_m);
+        canvas_draw_str_aligned(canvas, 101, 43, AlignLeft, AlignTop, buffer);
+    }
+    // Navigation arrows for the country and city chooser
+    switch(state->current_menu) {
+        case MenuCountry:
+            if(state->selected_country > 0) {
+                canvas_draw_icon(canvas, 18, 12, &I_ButtonUp_7x4);
+            }
+            if(state->selected_country < country_count - 1) {
+                canvas_draw_icon(canvas, 18, 17, &I_ButtonDown_7x4);
+            }
+            break;
+        case MenuCity:
+            canvas_draw_icon(canvas, 119, 12, &I_ButtonUp_7x4);
+            canvas_draw_icon(canvas, 119, 17, &I_ButtonDown_7x4);
+            break;
+    }
+
+    // Verbose area
+    snprintf(buffer, sizeof(buffer), "Selected city %i/%i", state->selected_city, filtered_city_indices[state->selected_city]);
+    canvas_draw_str_aligned(canvas, 1, 53, AlignLeft, AlignTop, buffer);
+}
+
+// =============================================================================
 // MAIN CALLBACK - called whenever the screen needs to be redrawn
 // =============================================================================
 void draw_callback(Canvas* canvas, void* context) {
     AppState* state = context;  // Get app context to check current screen
-	char buffer[64]; // buffer for string concatination
 
     // Clear the canvas and set drawing color to black
     canvas_clear(canvas);
@@ -343,112 +446,11 @@ void draw_callback(Canvas* canvas, void* context) {
     switch (state -> current_screen) {
 		case ScreenSplash: // Splash screen ===================================
 			// ================================================================
-			canvas_draw_icon(canvas, 1, 1, &I_splash); // 51 is a pixel above the buttons
-			canvas_set_color(canvas, ColorBlack);
-			canvas_set_font(canvas, FontPrimary);
-			canvas_draw_str_aligned(canvas, 1, 1, AlignLeft, AlignTop, "Sun data");
-			canvas_draw_str_aligned(canvas, 1, 10, AlignLeft, AlignTop, "for your");
-			canvas_draw_str_aligned(canvas, 1, 20, AlignLeft, AlignTop, "city");
-			canvas_draw_str_aligned(canvas, 88, 56, AlignLeft, AlignTop, "f418.eu");
-			
-			canvas_set_font(canvas, FontSecondary);
-			
-			canvas_draw_str_aligned(canvas, 1, 49, AlignLeft, AlignTop, "Hold 'back'");
-			canvas_draw_str_aligned(canvas, 1, 57, AlignLeft, AlignTop, "to exit.");
-
-			canvas_draw_str_aligned(canvas, 110, 1, AlignLeft, AlignTop, "v0.2");
-			
-			// Draw button hints at bottom using elements library
-			elements_button_center(canvas, "OK"); // for the OK button
+            draw_splash_screen(canvas);
 			break;	
 		case ScreenCities: // City chooser ======================================
 			// ==================================================================
-			canvas_draw_icon(canvas, 1, -1, &I_icon_10x10);
-			// Title
-			canvas_set_font(canvas, FontPrimary);
-			canvas_draw_str_aligned(canvas, 13, 1, AlignLeft, AlignTop, "City data"); 
-			// CSV load status indicator
-		    if(!state->csv_loaded) {
-				canvas_draw_str_aligned(canvas, 126, 55, AlignRight, AlignTop, "Error: No CSV!");
-			}
-			canvas_set_font(canvas, FontSecondary);
-			// Display current date
-			snprintf(buffer, sizeof(buffer), "%04d-%02d-%02d",datetime.year, datetime.month, datetime.day);
-			canvas_draw_str_aligned(canvas, 63, 2, AlignLeft, AlignTop, buffer);
-			
-			// Country chooser
-			canvas_draw_frame(canvas, 1, 11, 26, 12);
-			canvas_draw_str_aligned(canvas, 4, 13, AlignLeft, AlignTop, 
-				european_countries[state -> selected_country].code); 
-			// City chooser
-			canvas_draw_frame(canvas, 28, 11, 100, 12);
-			if(filtered_city_count > 0) {
-				state->city_idx = filtered_city_indices[state->selected_city];
-				canvas_draw_str_aligned(canvas, 30, 13, AlignLeft, AlignTop, cities[state->city_idx].name);
-				if(cities[state->city_idx].is_capital) { // Draw capital indicator if applicable
-					canvas_draw_icon(canvas, 118, 1, &I_capital_10x10);
-				}
-				// Display latitude and longitude
-				snprintf(buffer, sizeof(buffer), "Lat:%.2f%c Lon:%.2f%c",
-					fabs(cities[state->city_idx].latitude), (cities[state->city_idx].latitude >= 0 ? 'N' : 'S'),
-					fabs(cities[state->city_idx].longitude), (cities[state->city_idx].longitude >= 0 ? 'E' : 'W'));
-				canvas_draw_str_aligned(canvas, 1, 24, AlignLeft, AlignTop, buffer);
-				// Display elevation and time zone
-				snprintf(buffer, sizeof(buffer), "Elev: %dm UTC %+.1fh", 
-					cities[state->city_idx].elevation_m, cities[state->city_idx].utc_shift);
-				canvas_draw_str_aligned(canvas, 1, 33, AlignLeft, AlignTop, buffer);
-				
-				// Calculate sun times
-				int sunrise_h, sunrise_m, sunset_h, sunset_m;
-				calculate_sun_times(datetime.year, datetime.month, datetime.day,
-								   cities[state->city_idx].latitude, 
-								   cities[state->city_idx].longitude,
-								   &sunrise_h, &sunrise_m, &sunset_h, &sunset_m);
-
-				// Calculate day length
-				int day_minutes = (sunset_h * 60 + sunset_m) - (sunrise_h * 60 + sunrise_m);
-				int day_h = day_minutes / 60;
-				int day_m = day_minutes % 60;
-
-				// Sunset and sunrise output
-				canvas_draw_icon(canvas, 1, 42, &I_Sunrise_10x10);
-				snprintf(buffer, sizeof(buffer), "%02d:%02d", sunrise_h, sunrise_m);
-				canvas_draw_str_aligned(canvas, 13, 43, AlignLeft, AlignTop, buffer);
-
-				canvas_draw_icon(canvas, 45, 42, &I_Sunset_10x10);
-				snprintf(buffer, sizeof(buffer), "%02d:%02d", sunset_h, sunset_m);
-				canvas_draw_str_aligned(canvas, 57, 43, AlignLeft, AlignTop, buffer);
-
-				canvas_draw_icon(canvas, 89, 42, &I_HourGlas_10x10);
-				snprintf(buffer, sizeof(buffer), "%02d:%02d", day_h, day_m);
-				canvas_draw_str_aligned(canvas, 101, 43, AlignLeft, AlignTop, buffer);
-			}
-			// Navigation arrows for the country and city chooser
-			switch(state->current_menu) {
-				case MenuCountry:
-					if(state->selected_country > 0) {
-						canvas_draw_icon(canvas, 18, 12, &I_ButtonUp_7x4);
-					}
-					if(state->selected_country < country_count - 1) {
-						canvas_draw_icon(canvas, 18, 17, &I_ButtonDown_7x4);
-					}
-					break;
-				case MenuCity:
-					canvas_draw_icon(canvas, 119, 12, &I_ButtonUp_7x4);
-					canvas_draw_icon(canvas, 119, 17, &I_ButtonDown_7x4);
-					// if(state->selected_city > 0) {
-						// canvas_draw_icon(canvas, 119, 12, &I_ButtonUp_7x4);
-					// }
-					// if(state->selected_city < filtered_city_count - 1) {
-						// canvas_draw_icon(canvas, 119, 17, &I_ButtonDown_7x4);
-					// }
-					break;
-			}
-
-					
-			// Verbose area
-			snprintf(buffer, sizeof(buffer), "Selected city %i/%i", state -> selected_city, state -> city_idx);
-			canvas_draw_str_aligned(canvas, 1, 53, AlignLeft, AlignTop, buffer);
+            draw_cities_screen(canvas, state, &datetime);
 			break;	
     }
 }
@@ -523,19 +525,9 @@ int32_t astro_main(void* p) {
 			}
 			break;
 		case InputKeyLeft:
-			if ((input.type == InputTypePress) && (app.current_screen == ScreenCities)){
-				switch (app.current_menu) {
-					case MenuCity: app.current_menu = MenuCountry; break;
-					case MenuCountry: app.current_menu = MenuCity; break;
-				}
-			}
-			break;
 		case InputKeyRight:
-			if ((input.type == InputTypePress) && (app.current_screen == ScreenCities)) {
-				switch (app.current_menu) {
-					case MenuCity: app.current_menu = MenuCountry; break;
-					case MenuCountry: app.current_menu = MenuCity; break;
-				}
+			if ((input.type == InputTypePress) && (app.current_screen == ScreenCities)){
+				app.current_menu = (app.current_menu == MenuCountry) ? MenuCity : MenuCountry;
 			}
 			break;
 		case InputKeyOk:
