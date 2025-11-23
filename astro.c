@@ -259,7 +259,7 @@ bool load_cities_from_csv(const char* filepath) {
                     case 5: // Elevation
                         cities[city_count].elevation_m = parse_int(field);
                         break;
-                    case 8: // Capital flag
+                    case 8: // Capital Boolean flag
                         cities[city_count].is_capital = (field[0] == 'Y' || field[0] == 'y');
                         break;
                 }
@@ -354,7 +354,7 @@ static void draw_splash_screen(Canvas* canvas) {
     canvas_set_font(canvas, FontSecondary);
     canvas_draw_str_aligned(canvas, 1, 49, AlignLeft, AlignTop, "Hold 'back'");
     canvas_draw_str_aligned(canvas, 1, 57, AlignLeft, AlignTop, "to exit.");
-    canvas_draw_str_aligned(canvas, 110, 1, AlignLeft, AlignTop, "v0.2");
+    canvas_draw_str_aligned(canvas, 110, 1, AlignLeft, AlignTop, "v0.3");
     
     // Draw button hints at bottom using elements library
     elements_button_center(canvas, "OK"); // for the OK button
@@ -410,15 +410,15 @@ static void draw_cities_screen(Canvas* canvas, AppState* state, DateTime* dateti
         int day_m = day_minutes % 60;
 
         // Sunset and sunrise output
-        canvas_draw_icon(canvas, 1, 42, &I_Sunrise_10x10);
+        canvas_draw_icon(canvas, 1, 41, &I_Sunrise_10x10);
         snprintf(buffer, sizeof(buffer), "%02d:%02d", sunrise_h, sunrise_m);
         canvas_draw_str_aligned(canvas, 13, 43, AlignLeft, AlignTop, buffer);
 
-        canvas_draw_icon(canvas, 45, 42, &I_Sunset_10x10);
+        canvas_draw_icon(canvas, 45, 41, &I_Sunset_10x10);
         snprintf(buffer, sizeof(buffer), "%02d:%02d", sunset_h, sunset_m);
         canvas_draw_str_aligned(canvas, 57, 43, AlignLeft, AlignTop, buffer);
 
-        canvas_draw_icon(canvas, 89, 42, &I_HourGlas_10x10);
+        canvas_draw_icon(canvas, 89, 41, &I_HourGlas_10x10);
         snprintf(buffer, sizeof(buffer), "%02d:%02d", day_h, day_m);
         canvas_draw_str_aligned(canvas, 101, 43, AlignLeft, AlignTop, buffer);
     }
@@ -437,10 +437,19 @@ static void draw_cities_screen(Canvas* canvas, AppState* state, DateTime* dateti
             canvas_draw_icon(canvas, 119, 17, &I_ButtonDown_7x4);
             break;
     }
-
+	
+	// Draw navigation hints at bottom
+	if(state->current_menu == MenuCountry) {
+		// Only show "City" hint if there's more than one city to choose from
+		if(european_countries[state->selected_country].city_count > 1) {
+			elements_button_right(canvas, "City");
+		}
+	} else { // MenuCity
+		elements_button_left(canvas, "Country");
+	}
     // Verbose area
-    snprintf(buffer, sizeof(buffer), "Cntry %i [%i cities]. City %i/%i", state -> selected_country, european_countries[state -> selected_country].city_count,state->selected_city, filtered_city_indices[state->selected_city]);
-    canvas_draw_str_aligned(canvas, 1, 53, AlignLeft, AlignTop, buffer);
+    // snprintf(buffer, sizeof(buffer), "Cntry %i [%i cities]. City %i/%i", state -> selected_country, european_countries[state -> selected_country].city_count,state->selected_city, filtered_city_indices[state->selected_city]);
+    // canvas_draw_str_aligned(canvas, 1, 53, AlignLeft, AlignTop, buffer);
 }
 
 // =============================================================================
@@ -570,7 +579,14 @@ int32_t astro_main(void* p) {
 			case InputKeyLeft:
 			case InputKeyRight:
 				if ((input.type == InputTypePress) && (app.current_screen == ScreenCities)){
-					app.current_menu = (app.current_menu == MenuCountry) ? MenuCity : MenuCountry;
+					if(app.current_menu == MenuCountry) {
+						// Only switch to city menu if there's more than one city
+						if(european_countries[app.selected_country].city_count > 1) {
+							app.current_menu = MenuCity;
+						}
+					} else {
+						app.current_menu = MenuCountry;
+					}
 				}
 				break;
 			case InputKeyOk:
