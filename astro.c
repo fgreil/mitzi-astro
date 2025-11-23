@@ -31,56 +31,57 @@ struct EuropeanCountry {
     char code[3];     
     char name[32];
     char capital[32];
+    int city_count;
 };
 
-static const struct EuropeanCountry european_countries[] = {
-    [0] = { .code = "AD", .name = "Andorra", .capital = "Andorra la Vella" },
-    [1] = { .code = "AL", .name = "Albania", .capital = "Tirana" },
-    [2] = { .code = "AM", .name = "Armenia", .capital = "Yerevan" },
-    [3] = { .code = "AT", .name = "Austria", .capital = "Vienna" },
-    [4] = { .code = "AZ", .name = "Azerbaijan", .capital = "Baku" },
-    [5] = { .code = "BA", .name = "Bosnia and Herzegovina", .capital = "Sarajevo" },
-    [6] = { .code = "BE", .name = "Belgium", .capital = "Brussels" },
-    [7] = { .code = "BG", .name = "Bulgaria", .capital = "Sofia" },
-    [8] = { .code = "BY", .name = "Belarus", .capital = "Minsk" },
-    [9] = { .code = "CH", .name = "Switzerland", .capital = "Bern" },
-    [10] = { .code = "CY", .name = "Cyprus", .capital = "Nicosia" },
-    [11] = { .code = "CZ", .name = "Czech Republic", .capital = "Prague" },
-    [12] = { .code = "DE", .name = "Germany", .capital = "Berlin" },
-    [13] = { .code = "DK", .name = "Denmark", .capital = "Copenhagen" },
-    [14] = { .code = "EE", .name = "Estonia", .capital = "Tallinn" },
-    [15] = { .code = "ES", .name = "Spain", .capital = "Madrid" },
-    [16] = { .code = "FI", .name = "Finland", .capital = "Helsinki" },
-    [17] = { .code = "FR", .name = "France", .capital = "Paris" },
-    [18] = { .code = "GB", .name = "United Kingdom", .capital = "London" },
-    [19] = { .code = "GE", .name = "Georgia", .capital = "Tbilisi" },
-    [20] = { .code = "GR", .name = "Greece", .capital = "Athens" },
-    [21] = { .code = "HR", .name = "Croatia", .capital = "Zagreb" },
-    [22] = { .code = "HU", .name = "Hungary", .capital = "Budapest" },
-    [23] = { .code = "IE", .name = "Ireland", .capital = "Dublin" },
-    [24] = { .code = "IS", .name = "Iceland", .capital = "Reykjavik" },
-    [25] = { .code = "IT", .name = "Italy", .capital = "Rome" },
-    [26] = { .code = "LI", .name = "Liechtenstein", .capital = "Vaduz" },
-    [27] = { .code = "LT", .name = "Lithuania", .capital = "Vilnius" },
-    [28] = { .code = "LU", .name = "Luxembourg", .capital = "Luxembourg City" },
-    [29] = { .code = "LV", .name = "Latvia", .capital = "Riga" },
-    [30] = { .code = "MC", .name = "Monaco", .capital = "Monaco" },
-    [31] = { .code = "MD", .name = "Moldova", .capital = "Chisinau" },
-    [32] = { .code = "ME", .name = "Montenegro", .capital = "Podgorica" },
-    [33] = { .code = "MK", .name = "North Macedonia", .capital = "Skopje" },
-    [34] = { .code = "MT", .name = "Malta", .capital = "Valletta" },
-    [35] = { .code = "NL", .name = "Netherlands", .capital = "Amsterdam" },
-    [36] = { .code = "NO", .name = "Norway", .capital = "Oslo" },
-    [37] = { .code = "PL", .name = "Poland", .capital = "Warsaw" },
-    [38] = { .code = "PT", .name = "Portugal", .capital = "Lisbon" },
-    [39] = { .code = "RO", .name = "Romania", .capital = "Bucharest" },
-    [40] = { .code = "RS", .name = "Serbia", .capital = "Belgrade" },
-    [41] = { .code = "SE", .name = "Sweden", .capital = "Stockholm" },
-    [42] = { .code = "SI", .name = "Slovenia", .capital = "Ljubljana" },
-    [43] = { .code = "SK", .name = "Slovakia", .capital = "Bratislava" },
-    [44] = { .code = "SM", .name = "San Marino", .capital = "San Marino" },
-    [45] = { .code = "UA", .name = "Ukraine", .capital = "Kyiv" },
-    [46] = { .code = "VA", .name = "Vatican City", .capital = "Vatican City" }
+static struct EuropeanCountry european_countries[] = {
+    [0] = { .code = "AD", .name = "Andorra", .capital = "Andorra la Vella", .city_count = 0 },
+    [1] = { .code = "AL", .name = "Albania", .capital = "Tirana", .city_count = 0 },
+    [2] = { .code = "AM", .name = "Armenia", .capital = "Yerevan", .city_count = 0 },
+    [3] = { .code = "AT", .name = "Austria", .capital = "Vienna", .city_count = 0 },
+    [4] = { .code = "AZ", .name = "Azerbaijan", .capital = "Baku", .city_count = 0 },
+    [5] = { .code = "BA", .name = "Bosnia and Herzegovina", .capital = "Sarajevo", .city_count = 0 },
+    [6] = { .code = "BE", .name = "Belgium", .capital = "Brussels", .city_count = 0 },
+    [7] = { .code = "BG", .name = "Bulgaria", .capital = "Sofia", .city_count = 0 },
+    [8] = { .code = "BY", .name = "Belarus", .capital = "Minsk", .city_count = 0 },
+    [9] = { .code = "CH", .name = "Switzerland", .capital = "Bern", .city_count = 0 },
+    [10] = { .code = "CY", .name = "Cyprus", .capital = "Nicosia", .city_count = 0 },
+    [11] = { .code = "CZ", .name = "Czech Republic", .capital = "Prague", .city_count = 0 },
+    [12] = { .code = "DE", .name = "Germany", .capital = "Berlin", .city_count = 0 },
+    [13] = { .code = "DK", .name = "Denmark", .capital = "Copenhagen", .city_count = 0 },
+    [14] = { .code = "EE", .name = "Estonia", .capital = "Tallinn", .city_count = 0 },
+    [15] = { .code = "ES", .name = "Spain", .capital = "Madrid", .city_count = 0 },
+    [16] = { .code = "FI", .name = "Finland", .capital = "Helsinki", .city_count = 0 },
+    [17] = { .code = "FR", .name = "France", .capital = "Paris", .city_count = 0 },
+    [18] = { .code = "GB", .name = "United Kingdom", .capital = "London", .city_count = 0 },
+    [19] = { .code = "GE", .name = "Georgia", .capital = "Tbilisi", .city_count = 0 },
+    [20] = { .code = "GR", .name = "Greece", .capital = "Athens", .city_count = 0 },
+    [21] = { .code = "HR", .name = "Croatia", .capital = "Zagreb", .city_count = 0 },
+    [22] = { .code = "HU", .name = "Hungary", .capital = "Budapest", .city_count = 0 },
+    [23] = { .code = "IE", .name = "Ireland", .capital = "Dublin", .city_count = 0 },
+    [24] = { .code = "IS", .name = "Iceland", .capital = "Reykjavik", .city_count = 0 },
+    [25] = { .code = "IT", .name = "Italy", .capital = "Rome", .city_count = 0 },
+    [26] = { .code = "LI", .name = "Liechtenstein", .capital = "Vaduz", .city_count = 0 },
+    [27] = { .code = "LT", .name = "Lithuania", .capital = "Vilnius", .city_count = 0 },
+    [28] = { .code = "LU", .name = "Luxembourg", .capital = "Luxembourg City", .city_count = 0 },
+    [29] = { .code = "LV", .name = "Latvia", .capital = "Riga", .city_count = 0 },
+    [30] = { .code = "MC", .name = "Monaco", .capital = "Monaco", .city_count = 0 },
+    [31] = { .code = "MD", .name = "Moldova", .capital = "Chisinau", .city_count = 0 },
+    [32] = { .code = "ME", .name = "Montenegro", .capital = "Podgorica", .city_count = 0 },
+    [33] = { .code = "MK", .name = "North Macedonia", .capital = "Skopje", .city_count = 0 },
+    [34] = { .code = "MT", .name = "Malta", .capital = "Valletta", .city_count = 0 },
+    [35] = { .code = "NL", .name = "Netherlands", .capital = "Amsterdam", .city_count = 0 },
+    [36] = { .code = "NO", .name = "Norway", .capital = "Oslo", .city_count = 0 },
+    [37] = { .code = "PL", .name = "Poland", .capital = "Warsaw", .city_count = 0 },
+    [38] = { .code = "PT", .name = "Portugal", .capital = "Lisbon", .city_count = 0 },
+    [39] = { .code = "RO", .name = "Romania", .capital = "Bucharest", .city_count = 0 },
+    [40] = { .code = "RS", .name = "Serbia", .capital = "Belgrade", .city_count = 0 },
+    [41] = { .code = "SE", .name = "Sweden", .capital = "Stockholm", .city_count = 0 },
+    [42] = { .code = "SI", .name = "Slovenia", .capital = "Ljubljana", .city_count = 0 },
+    [43] = { .code = "SK", .name = "Slovakia", .capital = "Bratislava", .city_count = 0 },
+    [44] = { .code = "SM", .name = "San Marino", .capital = "San Marino", .city_count = 0 },
+    [45] = { .code = "UA", .name = "Ukraine", .capital = "Kyiv", .city_count = 0 },
+    [46] = { .code = "VA", .name = "Vatican City", .capital = "Vatican City", .city_count = 0 }
 };
 
 // Number of countries in the array
@@ -282,6 +283,18 @@ bool load_cities_from_csv(const char* filepath) {
     return city_count > 0;
 }
 
+// Count cities for each country
+void count_cities_per_country(void) {  
+    for(int i = 0; i < city_count; i++) { 
+        for(int j = 0; j < country_count; j++) { // loop overt the internal array
+            if(strcmp(cities[i].country_code, european_countries[j].code) == 0) {
+                european_countries[j].city_count++;
+                break;
+            }
+        }
+    }
+}
+
 // Filter cities by selected country
 void filter_cities_by_country(AppState* state) {
     filtered_city_count = 0;
@@ -426,7 +439,7 @@ static void draw_cities_screen(Canvas* canvas, AppState* state, DateTime* dateti
     }
 
     // Verbose area
-    snprintf(buffer, sizeof(buffer), "Selected city %i/%i", state->selected_city, filtered_city_indices[state->selected_city]);
+    snprintf(buffer, sizeof(buffer), "Cntry %i [%i cities]. City %i/%i", state -> selected_country, european_countries[state -> selected_country].city_count,state->selected_city, filtered_city_indices[state->selected_city]);
     canvas_draw_str_aligned(canvas, 1, 53, AlignLeft, AlignTop, buffer);
 }
 
@@ -485,6 +498,12 @@ int32_t astro_main(void* p) {
     gui_add_view_port(app.gui, app.view_port, GuiLayerFullscreen);
 	// Load cities from CSV
 	app.csv_loaded = load_cities_from_csv(APP_DATA_PATH("european_cities.txt"));
+	count_cities_per_country();  // Update internal country array with counts
+	while(app.selected_country < country_count && 
+			european_countries[app.selected_country].city_count == 0) {
+		app.selected_country++;
+	}
+	
 	FURI_LOG_I(TAG, "CSV loaded: %d, City count: %d", app.csv_loaded, city_count);
 	if(city_count > 0) {
 		FURI_LOG_I(TAG, "First city: code='%s' name='%s'", 
@@ -502,50 +521,74 @@ int32_t astro_main(void* p) {
         furi_check(
             furi_message_queue_get(app.input_queue, &input, FuriWaitForever) == FuriStatusOk);
 			
-		// Handle button presses based on current screen
+		// Handle button presses and holds based on selected screen
         switch(input.key) {
-		case InputKeyUp:
-			if((input.type == InputTypePress) && (app.current_screen == ScreenCities)) {
-				if(app.current_menu == MenuCountry && app.selected_country > 0) {
-					app.selected_country--;
-					filter_cities_by_country(&app);
-				} else if(app.current_menu == MenuCity && app.selected_city > 0) {
-					app.selected_city--;
+			case InputKeyUp:
+				if((input.type == InputTypePress) && (app.current_screen == ScreenCities)) {
+					if(app.current_menu == MenuCountry && app.selected_country > 0) {
+						app.selected_country--;
+						while(app.selected_country > 0 && 
+							  european_countries[app.selected_country].city_count == 0) {
+							app.selected_country--;
+						}
+						// If we ended up at index 0 with no cities, go back to where we started
+						if(european_countries[app.selected_country].city_count == 0) {
+							app.selected_country++;
+							while(app.selected_country < country_count && 
+								  european_countries[app.selected_country].city_count == 0) {
+								app.selected_country++;
+							}
+						}
+						filter_cities_by_country(&app);
+					} else if(app.current_menu == MenuCity && app.selected_city > 0) {
+						app.selected_city--;
+					}
 				}
-			}
-			break;
-		case InputKeyDown:
-			if((input.type == InputTypePress) && (app.current_screen == ScreenCities)) {
-				if(app.current_menu == MenuCountry && app.selected_country < country_count - 1) {
-					app.selected_country++;
-					filter_cities_by_country(&app);
-				} else if(app.current_menu == MenuCity && app.selected_city < filtered_city_count - 1) {
-					app.selected_city++;
+				break;
+			case InputKeyDown:
+				if((input.type == InputTypePress) && (app.current_screen == ScreenCities)) {
+					if(app.current_menu == MenuCountry && app.selected_country < country_count - 1) {
+						app.selected_country++;
+						while(app.selected_country < country_count - 1 && 
+							  european_countries[app.selected_country].city_count == 0) {
+							app.selected_country++;
+						}
+						// If we ended up at the last index with no cities, stay where we were
+						if(european_countries[app.selected_country].city_count == 0) {
+							app.selected_country--;
+							while(app.selected_country > 0 && 
+								  european_countries[app.selected_country].city_count == 0) {
+								app.selected_country--;
+							}
+						}
+						filter_cities_by_country(&app);
+					} else if(app.current_menu == MenuCity && app.selected_city < filtered_city_count - 1) {
+						app.selected_city++;
+					}
 				}
-			}
-			break;
-		case InputKeyLeft:
-		case InputKeyRight:
-			if ((input.type == InputTypePress) && (app.current_screen == ScreenCities)){
-				app.current_menu = (app.current_menu == MenuCountry) ? MenuCity : MenuCountry;
-			}
-			break;
-		case InputKeyOk:
-			if (input.type == InputTypePress){
-				switch (app.current_screen) {
-					case ScreenSplash:
-						app.current_screen = ScreenCities;   
+				break;
+			case InputKeyLeft:
+			case InputKeyRight:
+				if ((input.type == InputTypePress) && (app.current_screen == ScreenCities)){
+					app.current_menu = (app.current_menu == MenuCountry) ? MenuCity : MenuCountry;
+				}
+				break;
+			case InputKeyOk:
+				if (input.type == InputTypePress){
+					switch (app.current_screen) {
+						case ScreenSplash:
+							app.current_screen = ScreenCities;   
+						break;
+					}
 					break;
 				}
 				break;
-			}
-			break;
-        case InputKeyBack:
-		default:
-			if(input.type == InputTypeLong) {
-				exit_loop = 1;  // Exit app after long press
-			}
-            break;
+			case InputKeyBack:
+			default:
+				if(input.type == InputTypeLong) {
+					exit_loop = 1;  // Exit app after long press
+				}
+				break;
 		}
 		// Exit main app loop if exit flag is set
         if(exit_loop) break; 
