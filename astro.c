@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <storage/storage.h>
+#include <furi_hal_rtc.h> // for getting the current date
 
 #define TAG "Astro" // Tag for logging purposes
 #define MAX_CITIES 200
@@ -312,6 +313,10 @@ void draw_callback(Canvas* canvas, void* context) {
     // Clear the canvas and set drawing color to black
     canvas_clear(canvas);
     canvas_set_color(canvas, ColorBlack);
+	// Get current time
+	DateTime datetime;
+    furi_hal_rtc_get_datetime(&datetime);
+	
     switch (state -> current_screen) {
 		case ScreenSplash: // Splash screen ===================================
 			// ================================================================
@@ -344,6 +349,10 @@ void draw_callback(Canvas* canvas, void* context) {
 				canvas_draw_str_aligned(canvas, 126, 55, AlignRight, AlignTop, "Error: No CSV!");
 			}
 			canvas_set_font(canvas, FontSecondary);
+			// Display current date
+			snprintf(buffer, sizeof(buffer), "%04d-%02d-%02d",datetime.year, datetime.month, datetime.day);
+			canvas_draw_str_aligned(canvas, 63, 2, AlignLeft, AlignTop, buffer);
+			
 			// Country chooser
 			canvas_draw_frame(canvas, 1, 11, 26, 12);
 			canvas_draw_str_aligned(canvas, 4, 13, AlignLeft, AlignTop, 
@@ -389,11 +398,11 @@ void draw_callback(Canvas* canvas, void* context) {
 			}
 			// Sunset and sunrise output
 			canvas_draw_icon(canvas, 1, 42, &I_Sunset_10x10);
-			canvas_draw_icon(canvas, 40, 42, &I_Sunrise_10x10);
-			canvas_draw_icon(canvas, 80, 42, &I_HourGlas_10x10);
+			canvas_draw_icon(canvas, 35, 42, &I_Sunrise_10x10);
+			canvas_draw_icon(canvas, 70, 42, &I_HourGlas_10x10);
 			// Verbose area
-			snprintf(buffer, sizeof(buffer), "Selected city %i / %i", state -> selected_city, state -> city_idx);
-			canvas_draw_str_aligned(canvas, 1, 51, AlignLeft, AlignTop, buffer);
+			snprintf(buffer, sizeof(buffer), "Selected city %i/%i", state -> selected_city, state -> city_idx);
+			canvas_draw_str_aligned(canvas, 1, 53, AlignLeft, AlignTop, buffer);
 			break;	
     }
 }
