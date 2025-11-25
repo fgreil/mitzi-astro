@@ -23,7 +23,7 @@ The **City Data Screen** has two menu boxes, the country selector (with 2-letter
 The **data file** is located at `/ext/apps_data/mitzi-astro/european_cities.txt` (note the ending `txt`). It is in CSV with fields like `country_code`, `utc_shift`, `city_name`, `longitude`, `latitude`, `elevation_m`. It supports up to 200 cities (hard-coded, but easy to change).
 
 ## Sun maths
-The function `SunTimes sun(int year, int month, int day, int lat_degree, int lat_minute, int lon_degree, int lon_minute, int height_meters, float time_zone_offset_to_utc_in_hours)` located in [suntimes.c](suntimes.c) computes for any date between year 0 and 3000, using formulas from https://gml.noaa.gov/grad/solcalc/calcdetails.html
+Currently, a simplified formula is being used. The goal is to (real soon now) use the function `SunTimes sun(int year, int month, int day, int lat_degree, int lat_minute, int lon_degree, int lon_minute, int height_meters, float time_zone_offset_to_utc_in_hours)` located in [suntimes.c](suntimes.c) to compute for any date between year 0 and 3000. The formulas are from https://gml.noaa.gov/grad/solcalc/calcdetails.html
 * astronomical dawn and astronomical dusk,
 * nautical dawn and nautical dusk,
 * civil dawn and civil dusk,
@@ -35,6 +35,6 @@ The function returns a `SunTimes`, including a field `comment` reflecting specia
 # Links and further reading
 * [Mitzi (C. C. Odontoceti)](https://www.floridamemory.com/items/show/82844) was a movie star, born in 1958 and died in 1972.
 * https://developer.flipper.net/flipperzero/doxygen/applications.html is the official (too) short introduction to writing own apps.
-* The real app **tuning fork** seems to be well documented, see https://github.com/besya/flipperzero-tuning-fork/tree/main 
+* An inspiring app to get acquainted with Flipper Zero is **tuning fork**, which is rather well documented, see https://github.com/besya/flipperzero-tuning-fork/tree/main 
 * Under https://github.com/flipperdevices/flipperzero-firmware/tree/dev/assets/icons/Common we find nice icons, e.g. `ButtonLeft_4x7.png`.
-* [uFBT](https://github.com/flipperdevices/flipperzero-ufbt) is the *micro Flipper Build Tool*, a cross-platform tool for building applications. It requires python to be installed. 
+* You probably know: To compile the code, you need [uFBT](https://github.com/flipperdevices/flipperzero-ufbt) aka *micro Flipper Build Tool*, it requires python to be installed. 
