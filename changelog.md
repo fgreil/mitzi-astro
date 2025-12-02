@@ -1,3 +1,6 @@
+v0.4: 
+2025-12-02. Small layout adjustments.
+
 v0.3: 
 2025-11-23. Simplified sunrise, sunset and daylight calculation. Country chooser filters cities works as designed. City choser is only reachable if more than one city is present. Navigation hints are now shown on the main screen.
 
