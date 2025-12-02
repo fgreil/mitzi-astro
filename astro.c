@@ -354,7 +354,7 @@ static void draw_splash_screen(Canvas* canvas) {
     canvas_set_font(canvas, FontSecondary);
     canvas_draw_str_aligned(canvas, 1, 49, AlignLeft, AlignTop, "Hold 'back'");
     canvas_draw_str_aligned(canvas, 1, 57, AlignLeft, AlignTop, "to exit.");
-    canvas_draw_str_aligned(canvas, 110, 1, AlignLeft, AlignTop, "v0.3");
+    canvas_draw_str_aligned(canvas, 110, 1, AlignLeft, AlignTop, "v0.4");
     
     // Draw button hints at bottom using elements library
     elements_button_center(canvas, "OK"); // for the OK button
@@ -374,7 +374,7 @@ static void draw_cities_screen(Canvas* canvas, AppState* state, DateTime* dateti
     canvas_set_font(canvas, FontSecondary);
     // Display current date
     snprintf(buffer, sizeof(buffer), "%04d-%02d-%02d",datetime->year, datetime->month, datetime->day);
-    canvas_draw_str_aligned(canvas, 63, 2, AlignLeft, AlignTop, buffer);
+    canvas_draw_str_aligned(canvas, 60, 2, AlignLeft, AlignTop, buffer);
     
     // Country chooser
     canvas_draw_frame(canvas, 1, 11, 26, 12);
